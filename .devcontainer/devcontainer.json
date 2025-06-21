@@ -11,7 +11,7 @@
 	"postCreateCommand": "bash .devcontainer/setup.sh",
     "remoteUser": "vscode",
     "features": {
-        "ghcr.io/devcontainers/features/common-utils:1": {},
+        "ghcr.io/devcontainers/features/common-utils:2": {},
 		"ghcr.io/devcontainers/features/python:1": {
 			"installTools": true,
 			"optimize": true,
