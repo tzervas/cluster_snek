@@ -1,0 +1,26 @@
+# Development container configuration
+# .devcontainer/
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Optional: Exclude requirements.txt if using pyproject.toml exclusively
+requirements.txt

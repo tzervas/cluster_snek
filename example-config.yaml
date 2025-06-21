@@ -1,0 +1,69 @@
+cluster-snek:
+  __init__.py: ""
+  config:
+    __init__.py: ""
+    schema.py: "Configuration schema definitions"
+    validation.py: "Configuration validation logic"
+    loader.py: "Configuration loading and parsing"
+  sources:
+    __init__.py: ""
+    manager.py: "Source management orchestration"
+    handlers:
+      __init__.py: ""
+      git.py: "Git repository operations"
+      archive.py: "Archive extraction and processing"
+      network.py: "Network-based source handling"
+      local.py: "Local filesystem operations"
+  generators:
+    __init__.py: ""
+    base.py: "Base generator classes and interfaces"
+    cluster.py: "Cluster configuration generation"
+    orchestration.py: "ArgoCD orchestration generation"
+    values.py: "Helm values generation"
+  integrations:
+    __init__.py: ""
+    github.py: "GitHub API integration"
+    vector_stores.py: "Vector database management"
+    cerbos.py: "Cerbos authorization integration"
+    helm.py: "Helm chart management"
+  deployment:
+    __init__.py: ""
+    modes.py: "Deployment mode handlers"
+    idempotent.py: "Idempotent operation logic"
+    validation.py: "Deployment validation"
+    state.py: "State management and tracking"
+  automation:
+    __init__.py: ""
+    argocd.py: "ArgoCD automation and management"
+    monitoring.py: "Deployment monitoring and health checks"
+    rollback.py: "Rollback and recovery operations"
+  utils:
+    __init__.py: ""
+    logging.py: "Logging configuration and utilities"
+    exceptions.py: "Custom exception definitions"
+    constants.py: "Project constants and defaults"
+tests:
+  __init__.py: ""
+  unit:
+    __init__.py: ""
+    test_config.py: "Configuration testing"
+    test_sources.py: "Source management testing"
+    test_generators.py: "Generator testing"
+  integration:
+    __init__.py: ""
+    test_deployment.py: "End-to-end deployment testing"
+    test_airgapped.py: "Airgapped deployment testing"
+  fixtures:
+    __init__.py: ""
+    sample_configs.py: "Sample configuration files"
+examples:
+  minimal.yaml: "Minimal deployment configuration"
+  production.yaml: "Production deployment configuration"
+  airgapped.yaml: "Airgapped deployment configuration"
+docs:
+  README.md: "Project documentation"
+  DEPLOYMENT.md: "Deployment guide"
+  CONFIGURATION.md: "Configuration reference"
+requirements.txt: "Python dependencies"
+setup.py: "Package setup configuration"
+pyproject.toml: "Modern Python project configuration"
