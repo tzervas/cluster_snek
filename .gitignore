@@ -24,3 +24,10 @@ Thumbs.db
 
 # Optional: Exclude requirements.txt if using pyproject.toml exclusively
 requirements.txt
+
+# exclude internal docs
+refactoring-guidance.md
+cluster-snek_proj_asmt.pdf
+
+# exclude scratchpad dir
+scratchpad-wip
