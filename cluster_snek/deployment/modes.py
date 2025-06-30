@@ -163,16 +163,32 @@ class ArchiveVerifier:
             raise ValueError("Archive, signature or public key file not found")
             
         gpg = gnupg.GPG()
-        
+
+        # The expected signature format is a detached signature file (.sig or .asc) that matches the archive.
+        # Only detached signatures are supported; clear-signed or embedded signatures will not verify correctly.
         with open(public_key_path, "rb") as f:
             key_data = f.read()
             gpg.import_keys(key_data)
-            
+
+        # Check if the signature file is a detached signature by inspecting its contents
+        with open(signature_path, "rb") as sig_file:
+            sig_data = sig_file.read()
+            if b"BEGIN PGP SIGNED MESSAGE" in sig_data:
+                raise ValueError(
+                    "The provided signature appears to be a clear-signed message. "
+                    "Please provide a detached signature file (created with 'gpg --detach-sign')."
+                )
+            if b"BEGIN PGP MESSAGE" in sig_data:
+                raise ValueError(
+                    "The provided signature appears to be an embedded/opaque signature. "
+                    "Please provide a detached signature file (created with 'gpg --detach-sign')."
+                )
+
         with open(signature_path, "rb") as sig:
             verify = gpg.verify_file(sig, archive_path)
         if not verify:
             raise ValueError(f"Signature verification failed: {verify.status}")
-            
+
         return True
 
 
