@@ -1,0 +1,36 @@
+name: Update Branches
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+      
+      - name: Update feature branches
+        run: |
+          # Get all remote branches except main
+          git fetch origin
+          branches=$(git branch -r | grep -v 'main$' | sed 's/origin\///')
+          
+          for branch in $branches; do
+            echo "Updating branch: $branch"
+            git checkout $branch
+            git merge origin/main --no-edit || continue
+            git push origin $branch
+          done
