@@ -21,18 +21,18 @@ The VectorWeight refactoring introduces significant improvements while maintaini
 
 ```bash
 # Backup your existing configuration
-cp vectorweight-config.yaml vectorweight-config.yaml.backup
-cp -r vectorweight-homelab/ vectorweight-homelab-backup/
+cp example-config.yaml example-config.yaml.backup
+cp -r example-cluster/ example-cluster-backup/
 ```
 
 #### 2. Install New System
 
 ```bash
 # Install the new VectorWeight system
-pip install vectorweight-homelab
+pip install example-cluster
 
 # Verify installation
-vectorweight --version
+example --version
 ```
 
 #### 3. Migrate Configuration
@@ -48,7 +48,7 @@ Converts old VectorWeight configurations to new simplified format
 
 import yaml
 from pathlib import Path
-from vectorweight.config.loader import ConfigurationLoader
+from example.config.loader import ConfigurationLoader
 
 def migrate_old_configuration(old_config_path: Path) -> dict:
     """Migrate old configuration to new format"""
@@ -73,7 +73,7 @@ def migrate_old_configuration(old_config_path: Path) -> dict:
         
         cluster = {
             'name': cluster_data['name'],
-            'domain': cluster_data.get('domain', f"{cluster_data['name']}.vectorweight.com"),
+            'domain': cluster_data.get('domain', f"{cluster_data['name']}.example.com"),
             'size': cluster_size,
             'gpu_enabled': cluster_data.get('gpu_enabled', False),
             'vector_store': 'disabled',  # Default, configure manually if needed
@@ -85,13 +85,13 @@ def migrate_old_configuration(old_config_path: Path) -> dict:
     
     # Build new configuration
     new_config = {
-        'project_name': old_config.get('project_name', 'vectorweight-homelab'),
+        'project_name': old_config.get('project_name', 'example-cluster'),
         'environment': old_config.get('environment', 'production'),
         'deployment_mode': 'internet',  # Default, change if airgapped needed
         'clusters': clusters,
-        'github_organization': old_config.get('github_organization', 'vectorweight'),
+        'github_organization': old_config.get('github_organization', 'example'),
         'auto_create_repositories': True,
-        'base_domain': old_config.get('domain', 'vectorweight.com')
+        'base_domain': old_config.get('domain', 'example.com')
     }
     
     # Copy network settings if present
@@ -102,33 +102,33 @@ def migrate_old_configuration(old_config_path: Path) -> dict:
 
 # Usage
 if __name__ == "__main__":
-    old_config_path = Path("vectorweight-config.yaml.backup")
+    old_config_path = Path("example-config.yaml.backup")
     new_config = migrate_old_configuration(old_config_path)
     
-    with open("vectorweight-config-new.yaml", "w") as f:
+    with open("example-config-new.yaml", "w") as f:
         yaml.dump(new_config, f, default_flow_style=False)
     
-    print("Migration complete! Review vectorweight-config-new.yaml")
+    print("Migration complete! Review example-config-new.yaml")
 ```
 
 #### 4. Validate New Configuration
 
 ```bash
 # Validate the migrated configuration
-vectorweight validate --config vectorweight-config-new.yaml --detailed
+example validate --config example-config-new.yaml --detailed
 
 # Fix any validation issues
-# Edit vectorweight-config-new.yaml as needed
+# Edit example-config-new.yaml as needed
 ```
 
 #### 5. Test Generation
 
 ```bash
 # Test the new configuration with dry run
-vectorweight generate --config vectorweight-config-new.yaml --dry-run
+example generate --config example-config-new.yaml --dry-run
 
 # Generate actual deployment if validation passes
-vectorweight generate --config vectorweight-config-new.yaml --output vectorweight-new/
+example generate --config example-config-new.yaml --output example-new/
 ```
 
 #### 6. Update GitHub Settings
@@ -164,7 +164,7 @@ clusters:
 # NEW FORMAT  
 clusters:
   - name: "ai-cluster"
-    domain: "ai.vectorweight.com"
+    domain: "ai.example.com"
     size: "large"
     gpu_enabled: true
     vector_store: "weaviate"  # NEW: Vector store integration
@@ -255,31 +255,31 @@ docker version
 
 ```bash
 # 1. Initialize minimal configuration
-vectorweight init --template minimal_dev --output dev-config.yaml
+cluster_snek init --template minimal_dev --output dev-config.yaml
 
 # 2. Customize for your environment
 cat > dev-config.yaml << EOF
-project_name: "my-dev-homelab"
+project_name: "my-dev-cluster"
 environment: "development"
 deployment_mode: "internet"
 deployment_target: "direct"
 
 clusters:
   - name: "dev"
-    domain: "dev.homelab.local"
+    domain: "dev.cluster.local"
     size: "minimal"
 
 enable_security_cluster: false
 auto_create_repositories: true
-base_domain: "homelab.local"
+base_domain: "cluster.local"
 metallb_ip_range: "192.168.1.200-192.168.1.210"
 EOF
 
 # 3. Generate deployment
-vectorweight generate --config dev-config.yaml
+cluster_snek generate --config dev-config.yaml
 
 # 4. Deploy
-cd vectorweight-deployment
+cd example-deployment
 ./deploy.sh
 ```
 
@@ -290,13 +290,13 @@ cd vectorweight-deployment
 ```bash
 # 1. Create production configuration
 cat > prod-config.yaml << EOF
-project_name: "vectorweight-production"
+project_name: "example-production"
 environment: "production"
 deployment_mode: "internet"
 
 clusters:
   - name: "ai-cluster"
-    domain: "ai.vectorweight.com"
+    domain: "ai.example.com"
     size: "large"
     gpu_enabled: true
     vector_store: "weaviate"
@@ -306,7 +306,7 @@ clusters:
       - "ai-inference"
 
   - name: "security-cluster"
-    domain: "sec.vectorweight.com"
+    domain: "sec.example.com"
     size: "small"
     cerbos_enabled: true
     specialized_workloads:
@@ -323,13 +323,13 @@ EOF
 export GITHUB_TOKEN=your_github_token_here
 
 # 3. Validate configuration
-vectorweight validate --config prod-config.yaml --detailed
+cluster_snek validate --config prod-config.yaml --detailed
 
 # 4. Generate deployment
-vectorweight generate --config prod-config.yaml
+cluster_snek generate --config prod-config.yaml
 
 # 5. Deploy to clusters
-cd vectorweight-deployment
+cd example-deployment
 ./deploy.sh
 ```
 
@@ -344,7 +344,7 @@ mkdir -p /opt/k8s-sources
 
 # 2. Create airgapped configuration
 cat > airgapped-config.yaml << EOF
-project_name: "vectorweight-enterprise"
+project_name: "example-enterprise"
 environment: "production"
 deployment_mode: "airgapped-local"
 
@@ -366,7 +366,7 @@ base_domain: "internal.company.com"
 EOF
 
 # 3. Generate deployment
-vectorweight generate --config airgapped-config.yaml
+cluster_snek generate --config airgapped-config.yaml
 
 # 4. Manual repository setup (airgapped)
 # Copy generated configurations to your internal Git repositories
@@ -396,10 +396,10 @@ kubectl describe nodes
 
 ```bash
 # 1. Create configuration
-vectorweight init --interactive
+cluster_snek init --interactive
 
 # 2. Validate configuration
-vectorweight validate --config config.yaml --detailed
+cluster_snek validate --config config.yaml --detailed
 
 # 3. Review and adjust
 nano config.yaml
@@ -409,7 +409,7 @@ nano config.yaml
 
 ```bash
 # 1. Generate deployment
-vectorweight generate --config config.yaml --output my-deployment
+cluster_snek generate --config config.yaml --output my-deployment
 
 # 2. Review generated files
 tree my-deployment/
@@ -432,7 +432,7 @@ kubectl wait --for=condition=available --timeout=300s deployment/argo-cd-argocd-
 kubectl apply -f orchestration-repo/applicationsets/
 
 # 5. Monitor deployment
-vectorweight status
+cluster_snek status
 ```
 
 #### Phase 5: Verification
@@ -575,23 +575,31 @@ global_overrides:
 
 ```bash
 # Verify network policies
-kubectl get networkpolicies --all-namespaces
+# automate as a cluster_snek functionality kubectl get networkpolicies --all-namespaces
+cluster_snek net-policy --verify
 
 # Check Cilium status
-kubectl exec -n kube-system ds/cilium -- cilium status
+# automate as a cluster_snek functionality kubectl exec -n kube-system ds/cilium -- cilium status
+cluster_snek status cni
 
 # Verify Istio mTLS
-kubectl exec -n istio-system deploy/istiod -- pilot-discovery proxy-status
+# automate as a cluster_snek functionality kubectl exec -n istio-system deploy/istiod -- pilot-discovery proxy-status
+cluster_snek service-mesh --verify
 ```
 
 #### Pod Security
 
 ```bash
 # Check pod security standards
-kubectl get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.securityContext}{"\n"}{end}' --all-namespaces
+# automate as a cluster_snek functionality kubectl get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.securityContext}{"\n"}{end}' --all-namespaces
+cluster_snek check-security --standards
+
+# Validate cluster/pod security standards via a differential
+cluster_snek diff --security-standards
 
 # Verify no privileged containers
-kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].securityContext.privileged}{"\n"}{end}' | grep true
+# automate as a cluster_snek functionality kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].securityContext.privileged}{"\n"}{end}' | grep true
+cluster_snek privileged-containers --check
 ```
 
 ### Maintenance and Updates
@@ -600,13 +608,14 @@ kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{.metadata.name}
 
 ```bash
 # Update Helm charts (monthly)
-vectorweight generate --config config.yaml --force
+cluster_snek generate --config config.yaml --force
 
 # Check for security updates
-kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].image}{"\n"}{end}' | sort -u
+# automate as a cluster_snek functionality kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].image}{"\n"}{end}' | sort -u
+cluster_snek check-security --updates
 
 # Backup configurations
-tar -czf vectorweight-backup-$(date +%Y%m%d).tar.gz vectorweight-deployment/
+cluster_snek backup example-deployment/
 
 # Monitor resource usage
 kubectl top nodes
@@ -617,19 +626,19 @@ kubectl top pods --all-namespaces
 
 ```bash
 # 1. Backup current state
-kubectl get all --all-namespaces -o yaml > cluster-backup.yaml
+cluster_snek backup --target example-cluster -o cluster-backup.yaml
 
 # 2. Update VectorWeight
-pip install --upgrade vectorweight-homelab
+cluster_snek upgrade example-cluster
 
 # 3. Regenerate with force flag
-vectorweight generate --config config.yaml --force
+cluster_snek generate --config config.yaml --force
 
 # 4. Review changes
-git diff vectorweight-deployment/
+cluster_snek diff example-cluster example-deployment/
 
 # 5. Apply updates
-cd vectorweight-deployment && ./deploy.sh
+cd example-deployment && cluster_snek deploy example-cluster
 ```
 
-This comprehensive deployment guide ensures successful VectorWeight homelab deployments across all scenarios while providing troubleshooting and optimization guidance.
+This comprehensive deployment guide ensures successful cluster deployments across all scenarios while providing troubleshooting and optimization guidance.

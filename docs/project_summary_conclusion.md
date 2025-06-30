@@ -1,10 +1,10 @@
-# VectorWeight Homelab Refactoring Summary
+# example Homelab Refactoring Summary
 
 ## 📁 Complete Project Structure
 
 ```
-vectorweight-homelab/
-├── vectorweight/                           # Main package
+example-homelab/
+├── example/                           # Main package
 │   ├── __init__.py
 │   ├── cli/                               # Command line interface
 │   │   ├── __init__.py
@@ -109,12 +109,12 @@ clusters:
 
 **After (<20 lines):**
 ```yaml
-project_name: "vectorweight-ai"
+project_name: "example-ai"
 environment: "production"
 
 clusters:
   - name: "ai-cluster"
-    domain: "ai.vectorweight.com"
+    domain: "ai.example.com"
     size: "large"
     gpu_enabled: true
     vector_store: "weaviate"
@@ -296,7 +296,7 @@ def generate_complete_deployment(self):
 - [ ] Plan downtime windows
 
 ### **Migration Process**
-- [ ] Install new VectorWeight system
+- [ ] Install new example system
 - [ ] Convert configuration using migration utility
 - [ ] Validate new configuration
 - [ ] Test deployment in staging environment
@@ -311,7 +311,7 @@ def generate_complete_deployment(self):
 
 ## 🎉 Conclusion
 
-The VectorWeight Homelab refactoring represents a significant evolution in Kubernetes GitOps automation:
+The example Homelab refactoring represents a significant evolution in Kubernetes GitOps automation:
 
 ### **What We've Achieved**
 1. **Simplified Configuration**: Reduced complexity by 90% while adding powerful features
@@ -331,14 +331,14 @@ The VectorWeight Homelab refactoring represents a significant evolution in Kuber
 - **Architecture**: Clean interfaces, extensible design, maintainable code
 - **Operations**: State management, validation, monitoring, rollback support
 
-The refactored VectorWeight Homelab provides a **production-ready, enterprise-grade** foundation for AI/ML infrastructure automation while maintaining the simplicity and flexibility that makes it accessible to individual developers and small teams.
+The refactored example Homelab provides a **production-ready, enterprise-grade** foundation for AI/ML infrastructure automation while maintaining the simplicity and flexibility that makes it accessible to individual developers and small teams.
 
 **Ready to transform your Kubernetes homelab? Start with:**
 ```bash
-pip install vectorweight-homelab
-vectorweight init --template production_full
-vectorweight generate --config config.yaml
-cd vectorweight-deployment && ./deploy.sh
+pip install example-homelab
+example init --template production_full
+example generate --config config.yaml
+cd example-deployment && ./deploy.sh
 ```
 
 **Welcome to the future of AI/ML infrastructure automation!** 🚀

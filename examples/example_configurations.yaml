@@ -1,14 +1,14 @@
 # =============================================================================
 # MINIMAL DEVELOPMENT CONFIGURATION (examples/minimal.yaml)
 # =============================================================================
-project_name: "vectorweight-dev"
+project_name: "example-dev"
 environment: "development"
 deployment_mode: "internet"
 deployment_target: "direct"
 
 clusters:
   - name: "dev"
-    domain: "dev.vectorweight.local"
+    domain: "dev.example.local"
     size: "minimal"
     gpu_enabled: false
     vector_store: "disabled"
@@ -24,9 +24,9 @@ enable_mcp: false
 enable_gpu_operator: false
 
 # Repository settings
-github_organization: "vectorweight"
+github_organization: "example"
 auto_create_repositories: true
-base_domain: "vectorweight.local"
+base_domain: "example.local"
 metallb_ip_range: "192.168.1.200-192.168.1.210"
 
 # Deployment settings
@@ -37,14 +37,14 @@ enable_webhooks: false
 # =============================================================================
 # PRODUCTION FULL CONFIGURATION (examples/production.yaml)
 # =============================================================================
-project_name: "vectorweight-production"
+project_name: "example-production"
 environment: "production"
 deployment_mode: "internet"
 deployment_target: "vms"
 
 clusters:
   - name: "dev-cluster"
-    domain: "dev.vectorweight.com"
+    domain: "dev.example.com"
     size: "small"
     gpu_enabled: false
     vector_store: "disabled"
@@ -59,7 +59,7 @@ clusters:
             enabled: false
 
   - name: "ai-cluster"
-    domain: "ai.vectorweight.com"
+    domain: "ai.example.com"
     size: "large"
     gpu_enabled: true
     vector_store: "weaviate"
@@ -79,7 +79,7 @@ clusters:
             enabled: true
 
   - name: "homelab-cluster"
-    domain: "homelab.vectorweight.com"
+    domain: "homelab.example.com"
     size: "medium"
     gpu_enabled: false
     vector_store: "disabled"
@@ -91,7 +91,7 @@ clusters:
       - "media-services"
 
   - name: "security-cluster"
-    domain: "sec.vectorweight.com"
+    domain: "sec.example.com"
     size: "small"
     gpu_enabled: false
     vector_store: "disabled"
@@ -120,9 +120,9 @@ enable_mcp: true
 enable_gpu_operator: true
 
 # Repository management
-github_organization: "vectorweight"
+github_organization: "example"
 auto_create_repositories: true
-base_domain: "vectorweight.com"
+base_domain: "example.com"
 metallb_ip_range: "192.168.1.200-192.168.1.250"
 
 # GitOps settings
@@ -131,7 +131,7 @@ enable_webhooks: true
 
 # Global overrides
 global_overrides:
-  domain: "vectorweight.com"
+  domain: "example.com"
   timezone: "America/New_York"
   storageClass: "openebs-hostpath"
   monitoring:
@@ -147,7 +147,7 @@ global_overrides:
 # =============================================================================
 # AIRGAPPED ENTERPRISE CONFIGURATION (examples/airgapped.yaml)
 # =============================================================================
-project_name: "vectorweight-enterprise"
+project_name: "example-enterprise"
 environment: "production"
 deployment_mode: "airgapped-vc"
 deployment_target: "vms"
@@ -155,7 +155,7 @@ deployment_target: "vms"
 # Airgapped source configuration
 source:
   mode: "airgapped-vc"
-  url: "https://git.internal.vectorweight.com/infrastructure/k8s-configs"
+  url: "https://git.internal.example.com/infrastructure/k8s-configs"
   username: "${GIT_USERNAME}"
   token: "${GIT_TOKEN}"
   ca_certificate_path: "/etc/ssl/certs/internal-ca.crt"
@@ -164,7 +164,7 @@ source:
 
 clusters:
   - name: "ai-cluster"
-    domain: "ai.internal.vectorweight.com"
+    domain: "ai.internal.example.com"
     size: "large"
     gpu_enabled: true
     vector_store: "weaviate"
@@ -181,15 +181,15 @@ clusters:
         authorization:
           enabled: true
           admin_list:
-            - "admin@vectorweight.internal"
-            - "ai-team@vectorweight.internal"
+            - "admin@example.internal"
+            - "ai-team@example.internal"
         backup:
           enabled: true
           schedule: "0 2 * * *"
           retention: "90d"
 
   - name: "security-cluster"
-    domain: "sec.internal.vectorweight.com"
+    domain: "sec.internal.example.com"
     size: "medium"
     gpu_enabled: false
     vector_store: "disabled"
@@ -216,9 +216,9 @@ enable_mcp: false  # Disabled for airgapped environments
 enable_gpu_operator: true
 
 # Internal repository settings
-github_organization: "vectorweight-enterprise"
+github_organization: "example-enterprise"
 auto_create_repositories: false  # Manual repo management in enterprise
-base_domain: "internal.vectorweight.com"
+base_domain: "internal.example.com"
 metallb_ip_range: "10.0.100.200-10.0.100.250"
 
 # Secure deployment settings
@@ -227,7 +227,7 @@ enable_webhooks: false
 
 # Enterprise global overrides
 global_overrides:
-  domain: "internal.vectorweight.com"
+  domain: "internal.example.com"
   timezone: "UTC"
   storageClass: "fast-ssd"
   monitoring:
@@ -248,7 +248,7 @@ global_overrides:
       - "nist-800-53"
       - "iso-27001"
   imageRegistry:
-    internal: "registry.internal.vectorweight.com"
+    internal: "registry.internal.example.com"
     pullPolicy: "Always"
     scanningRequired: true
 
@@ -256,14 +256,14 @@ global_overrides:
 # =============================================================================
 # VECTOR STORE FOCUSED CONFIGURATION (examples/vector-stores.yaml)
 # =============================================================================
-project_name: "vectorweight-ai-research"
+project_name: "example-ai-research"
 environment: "research"
 deployment_mode: "internet"
 deployment_target: "vms"
 
 clusters:
   - name: "weaviate-cluster"
-    domain: "weaviate.vectorweight.com"
+    domain: "weaviate.example.com"
     size: "large"
     gpu_enabled: true
     vector_store: "weaviate"
@@ -297,7 +297,7 @@ clusters:
             enabled: true
 
   - name: "qdrant-cluster"
-    domain: "qdrant.vectorweight.com"
+    domain: "qdrant.example.com"
     size: "medium"
     gpu_enabled: false
     vector_store: "qdrant"
@@ -316,7 +316,7 @@ clusters:
               max_search_threads: 8
 
   - name: "chroma-dev"
-    domain: "chroma.vectorweight.com"
+    domain: "chroma.example.com"
     size: "small"
     gpu_enabled: false
     vector_store: "chroma-memory"
@@ -332,9 +332,9 @@ enable_cerbos_global: true
 enable_mcp: true
 enable_gpu_operator: true
 
-github_organization: "vectorweight-research"
+github_organization: "example-research"
 auto_create_repositories: true
-base_domain: "vectorweight.com"
+base_domain: "example.com"
 
 # Optimized for AI workloads
 global_overrides:
@@ -354,14 +354,14 @@ global_overrides:
 # =============================================================================
 # CERBOS AUTHORIZATION CONFIGURATION (examples/cerbos-auth.yaml)
 # =============================================================================
-project_name: "vectorweight-secure"
+project_name: "example-secure"
 environment: "production"
 deployment_mode: "internet"
 deployment_target: "vms"
 
 clusters:
   - name: "ai-secure"
-    domain: "ai-secure.vectorweight.com"
+    domain: "ai-secure.example.com"
     size: "large"
     gpu_enabled: true
     vector_store: "weaviate"
@@ -382,20 +382,20 @@ clusters:
           ssl_mode: "require"
         policy:
           repository:
-            url: "https://github.com/vectorweight/cerbos-policies"
+            url: "https://github.com/example/cerbos-policies"
             branch: "main"
             update_interval: "30s"
         jwt:
           verification:
             enabled: true
             issuers:
-              - issuer: "https://auth.vectorweight.com"
-                audience: "vectorweight-services"
-              - issuer: "https://keycloak.vectorweight.com"
+              - issuer: "https://auth.example.com"
+                audience: "example-services"
+              - issuer: "https://keycloak.example.com"
                 audience: "kubernetes-api"
 
   - name: "auth-cluster"
-    domain: "auth.vectorweight.com"
+    domain: "auth.example.com"
     size: "small"
     gpu_enabled: false
     vector_store: "disabled"
@@ -411,9 +411,9 @@ enable_cerbos_global: true
 enable_mcp: false
 enable_gpu_operator: true
 
-github_organization: "vectorweight-secure"
+github_organization: "example-secure"
 auto_create_repositories: true
-base_domain: "vectorweight.com"
+base_domain: "example.com"
 
 global_overrides:
   security:
