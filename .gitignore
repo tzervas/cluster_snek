@@ -6,7 +6,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.egg
+*.egg*
 
 # Virtual environment
 .venv/
