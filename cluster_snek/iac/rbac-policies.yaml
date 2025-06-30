@@ -9,9 +9,27 @@ kind: ClusterRole
 metadata:
   name: admin-role
 rules:
-  - apiGroups: ["*"]
-    resources: ["*"]
-    verbs: ["*"]
+  # Core API access
+  - apiGroups: ["", "apps", "batch"]
+    resources: ["pods", "services", "configmaps", "deployments", "statefulsets", "jobs"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+  # Limited secret access
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["keycloak-admin-secret", "keycloak-postgresql-secret"]
+    verbs: ["get", "watch"]
+  # CSR access restricted to selfnodeclient
+  - apiGroups: ["certificates.k8s.io"]
+    resources: ["certificatesigningrequests/selfnodeclient"]
+    verbs: ["get", "list"]
+  # Networking policies
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies", "ingresses"]
+    verbs: ["get", "list", "watch"]
+  # Storage management
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses", "persistentvolumes", "persistentvolumeclaims"]
+    verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -32,9 +50,12 @@ metadata:
   name: power-user
   namespace: default
 rules:
-  - apiGroups: ["", "apps", "batch"]
-    resources: ["*"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["", "apps"]
+    resources: ["pods", "services", "configmaps", "deployments"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -42,6 +63,6 @@ metadata:
   name: read-only
   namespace: default
 rules:
-  - apiGroups: ["", "apps", "batch"]
-    resources: ["*"]
+  - apiGroups: ["", "apps"]
+    resources: ["pods", "services", "configmaps", "deployments"]
     verbs: ["get", "list", "watch"]

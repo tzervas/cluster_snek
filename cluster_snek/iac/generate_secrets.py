@@ -8,9 +8,9 @@ This script generates secure credentials for various components including:
 """
 
 import base64
-import json
 import secrets
 import string
+import yaml
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -121,7 +121,7 @@ def main(output_dir: Optional[str] = None) -> None:
     for secret in secrets:
         name = secret["metadata"]["name"]
         with open(output_path / f"{name}.yaml", "w") as f:
-            json.dump(secret, f, indent=2)
+            yaml.dump(secret, f, sort_keys=False)
             print(f"Generated secret: {name}")
 
 if __name__ == "__main__":

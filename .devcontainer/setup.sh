@@ -1,7 +1,19 @@
 #!/bin/bash
 set -e
 
+# Ensure WORKSPACE_FOLDER is set
+: "${WORKSPACE_FOLDER:=/workspace}"
+if [ -z "$WORKSPACE_FOLDER" ]; then
+  echo "Error: WORKSPACE_FOLDER is not set or empty." >&2
+  exit 1
+fi
+
 # Load environment variables
+if [ ! -d "$WORKSPACE_FOLDER" ]; then
+  echo "Creating workspace directory: $WORKSPACE_FOLDER"
+  mkdir -p "$WORKSPACE_FOLDER"
+fi
+
 if [ -f "${WORKSPACE_FOLDER}/.env" ]; then
     source "${WORKSPACE_FOLDER}/.env"
 else
@@ -19,6 +31,11 @@ python_package_installed() {
 }
 
 # Create virtual environment if it doesn't exist
+if [ ! -d "$WORKSPACE_FOLDER" ]; then
+  echo "Creating workspace directory: $WORKSPACE_FOLDER"
+  mkdir -p "$WORKSPACE_FOLDER"
+fi
+
 if [ ! -d "${WORKSPACE_FOLDER}/.venv" ]; then
     echo "Creating virtual environment..."
     uv venv "${WORKSPACE_FOLDER}/.venv"
@@ -61,6 +78,11 @@ if ! grep -q "${ACTIVATE_CMD}" ~/.bashrc; then
 fi
 
 # Create necessary directories
+if [ ! -d "$WORKSPACE_FOLDER" ]; then
+  echo "Creating workspace directory: $WORKSPACE_FOLDER"
+  mkdir -p "$WORKSPACE_FOLDER"
+fi
+
 mkdir -p "${WORKSPACE_FOLDER}/logs"
 mkdir -p "${WORKSPACE_FOLDER}/data"
 

@@ -161,15 +161,14 @@ class ArchiveVerifier:
             
         gpg = gnupg.GPG()
         
-        with open(public_key_path) as f:
+        with open(public_key_path, "rb") as f:
             key_data = f.read()
             gpg.import_keys(key_data)
             
-        with open(archive_path, 'rb') as f:
-            verify = gpg.verify_file(f, signature_path)
-            
+        with open(signature_path, "rb") as sig:
+            verify = gpg.verify_file(sig, archive_path)
         if not verify:
-            raise ValueError("Invalid signature")
+            raise ValueError(f"Signature verification failed: {verify.status}")
             
         return True
 
