@@ -214,10 +214,10 @@ deployment_target: "direct"
 
 | Component | Minimum | Recommended |
 |-----------|---------|-------------|
-| Python | 3.9+ | 3.11+ |
+| Python | 3.12+ | 3.12+ |
 | Memory | 4GB | 8GB+ |
 | Storage | 50GB | 100GB+ |
-| Kubernetes | 1.25+ | 1.28+ |
+| Kubernetes | 1.30+ | 1.32+ |
 
 #### Required Tools
 
