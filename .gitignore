@@ -25,3 +25,6 @@ Thumbs.db
 
 # Optional: Exclude requirements.txt if using pyproject.toml exclusively
 requirements.txt
+
+# environment variables
+.env
