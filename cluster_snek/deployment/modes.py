@@ -88,10 +88,13 @@ class DeploymentValidator:
         """
         if not credentials_path.exists():
             raise ValueError(f"Credentials file not found: {credentials_path}")
-            
-        with open(credentials_path) as f:
-            creds = yaml.safe_load(f)
-            
+
+        try:
+            with open(credentials_path) as f:
+                creds = yaml.safe_load(f)
+        except yaml.YAMLError as e:
+            raise ValueError(f"Malformed credentials file: {credentials_path}: {e}")
+
         required_fields = ['api_key', 'access_token']
         missing = [f for f in required_fields if f not in creds]
         
