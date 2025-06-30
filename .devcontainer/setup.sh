@@ -46,10 +46,16 @@ echo "Installing project dependencies..."
 uv pip install --python "${WORKSPACE_FOLDER}/.venv" -e .[dev,test]
 
 # Setup pre-commit hooks if enabled
-if [ "${ENABLE_PRECOMMIT:-true}" = "true" ] && ! command_exists pre-commit; then
-    echo "Installing pre-commit..."
-    uv pip install pre-commit
+if [ "${ENABLE_PRECOMMIT:-true}" = "true" ]; then
+    PRECOMMIT_BIN="${WORKSPACE_FOLDER}/.venv/bin/pre-commit"
+    if [ ! -x "$PRECOMMIT_BIN" ]; then
+        echo "Installing pre-commit..."
+        uv pip install pre-commit
+    fi
+    # Activate venv and install pre-commit hooks
+    source "${WORKSPACE_FOLDER}/.venv/bin/activate"
     pre-commit install
+    deactivate
 fi
 
 # Configure git if not already configured
