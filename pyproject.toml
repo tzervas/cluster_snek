@@ -7,16 +7,12 @@ name = "cluster-snek"
 version = "0.1.1"
 description = "Professional-grade Kubernetes GitOps automation with comprehensive deployment modes"
 requires-python = ">=3.12"
-<<<<<<< HEAD
 dependencies = [
     "PyYAML>=6.0.1",
     "kubernetes>=28.1.0",
     "typer>=0.9.0",
     "rich>=13.6.0"
 ]
-=======
-dependencies = ["PyYAML", "GitPython"]
->>>>>>> 2bd2747 (Convergence (#3))
 
 [project.optional-dependencies]
 test = [
