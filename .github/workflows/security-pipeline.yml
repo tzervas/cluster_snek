@@ -1,0 +1,32 @@
+# .github/workflows/security-pipeline.yml
+name: Security-First CI/CD Pipeline
+on: [push, pull_request]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python with UV
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install UV
+        run: pip install uv
+      - name: Install dependencies
+        run: uv sync --dev
+      - name: Security Analysis
+        run: |
+          uv run bandit -r cluster_snek/
+          uv run safety check
+          uv run mypy cluster_snek/
+      - name: Code Quality
+        run: |
+          uv run black --check cluster_snek/
+          uv run isort --check-only cluster_snek/
+          uv run pylint cluster_snek/
+      - name: Test Suite
+        run: |
+          uv run pytest --cov=cluster_snek --cov-report=xml
+      - name: Coverage Upload
+        uses: codecov/codecov-action@v5
