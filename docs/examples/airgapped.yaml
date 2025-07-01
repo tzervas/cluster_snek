@@ -1,0 +1,23 @@
+project_name: "my-cluster-secure"
+environment: "production"
+deployment_mode: "airgapped-vc"
+
+source:
+  mode: "airgapped-vc"
+  url: "https://git.internal.company.com/k8s-configs"
+  username: "${GIT_USERNAME}"
+  token: "${GIT_TOKEN}"
+  verification_enabled: true
+
+clusters:
+  - name: "secure-ai"
+    domain: "ai.internal.company.com"
+    size: "large"
+    gpu_enabled: true
+    vector_store: "weaviate"
+    cerbos_enabled: true
+
+auto_create_repositories: false
+base_domain: "internal.company.com"
+enable_security_cluster: true
+metallb_ip_range: "10.10.1.200-10.10.1.250"

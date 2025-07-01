@@ -1,0 +1,12 @@
+project_name: "my-cluster-dev"
+environment: "development"
+deployment_mode: "internet"
+
+clusters:
+  - name: "dev"
+    domain: "dev.cluster.local"
+    size: "minimal"
+
+enable_security_cluster: false
+auto_create_repositories: true
+metallb_ip_range: "192.168.1.200-192.168.1.210"
