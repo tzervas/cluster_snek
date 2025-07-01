@@ -1,0 +1,28 @@
+project_name: "my-cluster-prod"
+environment: "production"
+deployment_mode: "internet"
+
+clusters:
+  - name: "ai-cluster"
+    domain: "ai.cluster.com"
+    size: "large"
+    gpu_enabled: true
+    vector_store: "weaviate"
+    cerbos_enabled: true
+    specialized_workloads:
+      - "machine-learning"
+      - "ai-inference"
+
+  - name: "security-cluster"
+    domain: "sec.cluster.com"
+    size: "small"
+    cerbos_enabled: true
+    specialized_workloads:
+      - "security"
+      - "monitoring"
+
+enable_cerbos_global: true
+enable_gpu_operator: true
+github_organization: "your-org"
+auto_create_repositories: true
+metallb_ip_range: "192.168.1.200-192.168.1.250"
