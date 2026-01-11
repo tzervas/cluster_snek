@@ -52,10 +52,8 @@ if [ "${ENABLE_PRECOMMIT:-true}" = "true" ]; then
         echo "Installing pre-commit..."
         uv pip install pre-commit
     fi
-    # Activate venv and install pre-commit hooks
-    source "${WORKSPACE_FOLDER}/.venv/bin/activate"
-    pre-commit install
-    deactivate
+    # Install pre-commit hooks using the venv's pre-commit binary
+    "${WORKSPACE_FOLDER}/.venv/bin/pre-commit" install
 fi
 
 # Configure git if not already configured
