@@ -187,7 +187,8 @@ class ArchiveVerifier:
         with open(signature_path, "rb") as sig:
             verify = gpg.verify_file(sig, archive_path)
         if not verify:
-            raise ValueError(f"Signature verification failed: {verify.status}")
+            status_msg = verify.status or "Unknown error (no status provided by GPG)."
+            raise ValueError(f"Signature verification failed: {status_msg}")
 
         return True
 
