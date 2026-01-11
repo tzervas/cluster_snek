@@ -14,16 +14,21 @@ import yaml
 from pathlib import Path
 from typing import Dict, List, Optional
 
-def generate_password(length: int = 32) -> str:
+def generate_password(
+    length: int = 32,
+    punctuation: str = "!#$%&()*+,-./:;<=>?@[]^_{|}~"
+) -> str:
     """Generate a secure random password.
-    
+
     Args:
         length: The length of the password to generate. Defaults to 32.
-        
+        punctuation: The set of punctuation characters to use. 
+            Defaults to a safe subset that avoids quotes, backslashes, and shell metacharacters.
+
     Returns:
         A secure random password string.
     """
-    alphabet = string.ascii_letters + string.digits + string.punctuation
+    alphabet = string.ascii_letters + string.digits + punctuation
     return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 def create_k8s_secret(name: str, namespace: str, data: Dict[str, str]) -> Dict:
