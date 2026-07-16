@@ -1,13 +1,8 @@
 name: Update Branches
 
+# Manual only — no push/pull_request CI triggers
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '0 0 * * *'  # Run daily at midnight
-  workflow_dispatch:  # Allow manual trigger
-
+  workflow_dispatch:
 jobs:
   update-branches:
     runs-on: ubuntu-latest
