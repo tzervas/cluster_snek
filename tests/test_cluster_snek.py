@@ -4,6 +4,7 @@ import pytest
 import yaml
 
 from cluster_snek import (
+    DeploymentMode,
     UserSettings, generate_project_structure,
     load_env_file, load_project_structure,
     load_user_settings
@@ -25,7 +26,7 @@ def test_load_user_settings_defaults(monkeypatch):
     settings = load_user_settings(config_path=None, env_path="nonexistent.env")
     assert isinstance(settings, UserSettings)
     assert settings.project_name == "cluster-snek-homelab"
-    assert settings.deployment_mode == settings.settings.DeploymentMode.INTERNET
+    assert settings.deployment_mode == DeploymentMode.INTERNET
 
 
 def test_load_user_settings_from_env(monkeypatch):
@@ -35,7 +36,7 @@ def test_load_user_settings_from_env(monkeypatch):
     settings = load_user_settings(config_path=None, env_path="nonexistent.env")
     assert settings.project_name == "testproj"
     assert settings.enable_webhooks is False
-    assert settings.deployment_mode == settings.DeploymentMode.AIRGAPPED_VC
+    assert settings.deployment_mode == DeploymentMode.AIRGAPPED_VC
 
 
 def test_load_user_settings_from_env_file(tmp_path):
@@ -45,7 +46,7 @@ def test_load_user_settings_from_env_file(tmp_path):
     settings = load_user_settings(config_path=None, env_path=env_path)
     assert settings.project_name == "envproj"
     assert settings.enable_webhooks is False
-    assert settings.deployment_mode == settings.DeploymentMode.AIRGAPPED_LOCAL
+    assert settings.deployment_mode == DeploymentMode.AIRGAPPED_LOCAL
 
 
 def test_load_user_settings_from_yaml_config(tmp_path):
@@ -60,7 +61,7 @@ def test_load_user_settings_from_yaml_config(tmp_path):
         config_path=config_path, env_path="nonexistent.env")
     assert settings.project_name == "yamlproj"
     assert settings.enable_webhooks is False
-    assert settings.deployment_mode == settings.DeploymentMode.AIRGAPPED_NETWORK
+    assert settings.deployment_mode == DeploymentMode.AIRGAPPED_NETWORK
 
 
 def test_load_user_settings_from_json_config(tmp_path):
@@ -75,7 +76,7 @@ def test_load_user_settings_from_json_config(tmp_path):
         config_path=config_path, env_path="nonexistent.env")
     assert settings.project_name == "jsonproj"
     assert settings.enable_webhooks is True
-    assert settings.deployment_mode == settings.DeploymentMode.AIRGAPPED_ARCHIVE
+    assert settings.deployment_mode == DeploymentMode.AIRGAPPED_ARCHIVE
 
 
 def test_load_project_structure_yaml(tmp_path):

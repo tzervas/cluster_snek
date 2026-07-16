@@ -120,6 +120,11 @@ def load_user_settings(config_path: Optional[Union[str, Path]] = None,
                 "Unsupported config file format. Use YAML or JSON.")
         for key, value in config_data.items():
             if hasattr(settings, key):
+                attr = getattr(settings, key)
+                if isinstance(attr, bool) and isinstance(value, str):
+                    value = value.lower() in ("1", "true", "yes", "on")
+                elif isinstance(attr, Enum) and isinstance(value, str):
+                    value = attr.__class__(value)
                 setattr(settings, key, value)
     # Load from .env file
     env_vars = load_env_file(env_path if env_path is not None else ".env")
