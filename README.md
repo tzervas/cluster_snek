@@ -1,5 +1,10 @@
 # Zero Trust AI R&D Infrastructure
 
+<!-- FLEET-BADGES:BEGIN -->
+[![CI](https://github.com/tzervas/cluster_snek/actions/workflows/fleet-ci.yml/badge.svg?branch=main)](https://github.com/tzervas/cluster_snek/actions/workflows/fleet-ci.yml?query=branch%3Amain)
+[![Security](https://github.com/tzervas/cluster_snek/actions/workflows/fleet-security.yml/badge.svg?branch=main)](https://github.com/tzervas/cluster_snek/actions/workflows/fleet-security.yml?query=branch%3Amain)
+<!-- FLEET-BADGES:END -->
+
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat&logo=kubernetes&logoColor=white)](https://kubernetes.io/)
 [![GitLab CI](https://img.shields.io/badge/GitLab%20CI-FCA326?style=flat&logo=gitlab&logoColor=white)](https://gitlab.com/)
